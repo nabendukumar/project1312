@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>project1312</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+
+  <!-- PAGE 1: Intro -->
+  <section class="page active" id="page1">
+    <h1 class="delayed-text">Hey Bhawna 👋</h1>
+    <button class="delayed-button" onclick="nextPage(2)">Tap to continue → 👉</button>
+  </section>
+
+  <!-- PAGE 2: Relax / Don’t worry -->
+  <section class="page" id="page2">
+    <div class="delayed-texts">
+      <p>Okay relax…</p>
+      <p>this isn’t a long emotional speech</p>
+      <p>And no… I am not gonna waste your time too</p>
+      <p>Just… tap continue na bhondu</p>
+    </div>
+    <button class="delayed-button" onclick="nextPage(3)">Continue →</button>
+  </section>
+
+  <!-- PAGE 3: Compatibility -->
+  <section class="page" id="page3">
+    <p id="calcText">Calculating compatibility...</p>
+    <h2 id="percent">0%</h2>
+    <div id="musicResult">
+      <h3>Music compatibility</h3>
+      <p>You 🤝 Me</p>
+      <p class="match">99% match</p>
+      <p class="sub">At least our playlists agree.</p>
+      <p class="delayed">Evidence:</p>
+      <img src="assets1/spotify.jpg" class="card-img delayed">
+      <button onclick="nextPage(4)" class="delayed">Next →</button>
+    </div>
+  </section>
+
+  <!-- PAGE 4: Voice -->
+  <section class="page" id="page4">
+    <div class="voice-container">
+      <p id="voiceMsg1">Remember when I called you besuri? 😂</p>
+      <button id="showVoiceBtn">Prove me wrong →</button>
+      <audio controls class="audio" id="voiceAudio" style="display:none;">
+        <source src="assets1/voice.mp3" type="audio/mp3">
+      </audio>
+      <p id="voiceMsg2" style="opacity:0;">Not gonna lie… I just love your voice 
+        din bhar sunn skta hu on loop😭  
+      </p>
+
+      <button id="nextPage4Btn" onclick="nextPage(5)">Next →</button>
+    </div>
+  </section>
+
+  <!-- PAGE 5: Quiz -->
+  <section class="page" id="page5">
+    <h3 id="quizTitle">Quick compatibility test</h3>
+    <div class="quiz-question" id="q1">
+      <p>What proves our music taste matches?</p>
+      <div class="option" onclick="wrong(this,1)">Coincidence</div>
+      <div class="option" onclick="wrong(this,1)">Algorithm</div>
+      <div class="option correct" onclick="correct(1)">Spotify Blend</div>
+      <p class="popup" id="popup1"></p>
+    </div>
+    <div class="quiz-question" id="q2" style="display:none;">
+      <p>Who listens to the most chatpate songs?</p>
+      <div class="option" onclick="wrong(this,2)">Both</div>
+      <div class="option correct" onclick="correct(2)">Bhawna</div>
+      <div class="option" onclick="wrong(this,2)">Me</div>
+      <p class="popup" id="popup2"></p>
+    </div>
+    <div class="quiz-question" id="q3" style="display:none;">
+      <p>Which is our top song according to our Spotify Blend?</p>
+      <div class="option" onclick="wrong(this,3)">Ishq Sufiyana</div>
+      <div class="option correct" onclick="correct(3)">Main Tenu Yaad Awanga</div>
+      <div class="option" onclick="wrong(this,3)">Pee loon</div>
+      <p class="popup" id="popup3"></p>
+    </div>
+    <p id="quizSuccess" style="display:none; font-weight:600; color:#ff5e94; margin-top:20px;">
+      99% music taste for a reason 🎶❤️
+    </p>
+  </section>
+
+  <!-- PAGE 6: Letter -->
+  <section class="page" id="page6">
+    <div id="letterContainer">
+      <p>Hey Buggie,</p>
+      <p>You know… there are so many things I wanna say,<br>but I don’t wanna make this long and boring.</p>
+      <p>I just wanna say… thank you.<br>For everything.</p>
+      <p>I know I’ve made a lot of mistakes,<br>more than I should have…<br>but you still stayed.<br>You still chose me.</p>
+      <p>You’ve always stood by my side,<br>no matter how I was…<br>and that means more to me than I can ever explain.</p>
+      <p>Despite my behavior,<br>you still love me…<br>and honestly, I feel so blessed to have you.</p>
+      <p>I want to know you a little more…<br>actually, I want to know everything about you.</p>
+      <p>I want to be a part of your life,<br>and I want you to be a part of mine.</p>
+      <p>Not just in the happy moments…<br>but even when life gets hard.</p>
+      <p>I want to rest my head in your lap and cry,<br>to tell you how deeply I’m hurt,<br>to share my pain without holding anything back.</p>
+      <p>And at the same time…<br>I want to be the one you come to,<br>the shoulder you can cry on,<br>the person who holds you when you need it the most.</p>
+      <p>I don’t just want to be one thing in your life…<br>I want to be your friend,<br>your safe place,<br>the person you can be completely unhinged with,<br>without any fear or hesitation.</p>
+      <p>And at the same time…<br>I want to be the love of your life.</p>
+      <p>I’ll be yours… no matter what.</p>
+      <p>Because the truth is…<br>I’m never letting you go.</p>
+      <p>I love you,<br>Bhawna ❤️</p>
+    </div>
+    <button onclick="nextPage(7)">The end →</button>
+    <audio id="letterMusic" src="assets1/softmusic.mp3" muted loop></audio>
+  </section>
+
+  <!-- PAGE 7: Final Question -->
+  <section class="page" id="page7">
+    <!-- JS will inject final question buttons -->
+  </section>
+
+  <!-- PAGE 8: Memories 1 -->
+  <section class="page" id="page8">
+    <div class="grid memoryA">
+      <img src="assets1/p1.jpg" class="memory-photo">
+      <img src="assets1/p2.jpg" class="memory-photo">
+      <img src="assets1/p3.jpg" class="memory-photo">
+    </div>
+    <p id="caption1" style="opacity:0;">Remember yeh moment? god I miss those days so bad</p>
+    <p id="caption2" style="opacity:0;">Pata nahi kab we will hangout together again 😭🫂 </p>
+    <button id="next6Btn" style="opacity:0; display:block;" onclick="nextPage(9)">Continue →</button>
+  </section>
+
+  <!-- PAGE 9: Memories 2 -->
+  <section class="page" id="page9">
+    <p id="compText" style="opacity:0;">Are you sure you don’t have competition? 😏</p>
+    <div class="grid memoryB">
+      <img src="assets1/b1.jpg" class="memory-photo">
+      <img src="assets1/b2.jpg" class="memory-photo">
+      <img src="assets1/b3.jpg" class="memory-photo">
+    </div>
+    <p id="winnerText" style="opacity:0;">See… I guess yeh pyaara sa baccha won 😌</p>
+    <button id="next7Btn" style="opacity:0; display:block;" onclick="nextPage(10)">One last thing →</button>
+  </section>
+
+  <!-- PAGE 10: QR + Easter Egg -->
+  <section class="page" id="page10">
+    <p>You waited this long, here is a little surprise for you</p>
+    <img src="assets1/qr.jpg" class="qr">
+    <p>Don't worry, love, it will be worth it ❤️</p>
+  </section>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
