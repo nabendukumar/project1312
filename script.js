@@ -48,6 +48,7 @@ function nextPage(n) {
   if(n===3) startPercent();
   if(n===4) initVoicePage();
   if(n===5) initQuizHint();
+  if(n === "5b") initHeartbeatScene();
   if(n===6) initLetterPage();
   if(n===7) initFinalQuestion();
   if(n===8) initMemories1();
@@ -148,7 +149,7 @@ function correct(q){
       setTimeout(()=>{
         let nextBtn=document.createElement('button');
         nextBtn.innerText='Next →';
-        nextBtn.onclick = ()=> nextPage(6);
+        nextBtn.onclick = ()=> nextPage("5b");
         nextBtn.style.marginTop='20px';
         successMsg.insertAdjacentElement('afterend',nextBtn);
       },500);
@@ -477,4 +478,79 @@ function initEasterEgg() {
       document.head.appendChild(style);
     }
   };
+}
+
+function initHeartbeatScene(){
+
+  const btn = document.getElementById("heartBtn");
+  const img = document.getElementById("lovePhoto");
+  const msg = document.getElementById("finalMsg");
+
+  let interval;
+  let holding = false;
+  let speed = 800;
+
+  function beat(){
+    // vibration (Android only)
+    if(navigator.vibrate){
+      navigator.vibrate([60, speed - 60]);
+    }
+
+    // image pulse sync
+    img.style.transform = "scale(1.06)";
+    setTimeout(()=>{
+      img.style.transform = "scale(1)";
+    }, 120);
+  }
+
+  function startHeartbeat(){
+    clearInterval(interval);
+    interval = setInterval(beat, speed);
+  }
+
+  // HOLD START
+  btn.addEventListener("touchstart", start);
+  btn.addEventListener("mousedown", start);
+
+  // RELEASE STOP
+  btn.addEventListener("touchend", stop);
+  btn.addEventListener("mouseup", stop);
+  btn.addEventListener("mouseleave", stop);
+
+  function start(){
+    holding = true;
+
+    startHeartbeat();
+
+    // AFTER 3 sec → image + faster heartbeat
+    setTimeout(()=>{
+      if(!holding) return;
+
+      img.style.opacity = 1;
+      img.style.transform = "scale(1)";
+
+      speed = 450;
+      startHeartbeat();
+
+    },3000);
+
+    // AFTER 4 sec → message
+    setTimeout(()=>{
+      if(!holding) return;
+
+      msg.style.opacity = 1;
+      msg.innerText =
+        "Love… that's what my heart sounds like when it's you ❤️";
+
+      speed = 300;
+      startHeartbeat();
+
+    },4000);
+  }
+
+  function stop(){
+    holding = false;
+    clearInterval(interval);
+    navigator.vibrate(0);
+  }
 }
