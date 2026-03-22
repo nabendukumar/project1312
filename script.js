@@ -284,10 +284,32 @@ function initFinalQuestion(){
 }
 
 function acceptLove(){
+
+  // Disable the button after clicking
+  document.querySelector('#page7b button').disabled = true;
+
+  // Trigger the celebration animation (customized)
   triggerCelebration();
+
+  // Get the message container
+  const msg = document.getElementById('inlineMessage');
+
+  // Set the message text
+  msg.innerText = "Babe, we are gonna make it. Just don't lose hope on us 🫂";
+
+  // Make sure it's hidden initially
+  msg.style.opacity = 0;
+
+  // Fade in the message after a short delay
+  setTimeout(()=>{
+    msg.style.transition = "opacity 1s ease";
+    msg.style.opacity = 1;
+  }, 100);  // Slight delay before showing the message
+
+  // Wait for 2.5 seconds, then move to next page
   setTimeout(()=>{
     nextPage(8);
-  },2000);
+  }, 2500);  // Move to next page after message fades in
 }
 
 function stillNo(){
