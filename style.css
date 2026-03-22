@@ -1,4 +1,5 @@
 
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -214,11 +215,22 @@ button:hover{
 
 
 #page5b{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100vh;
   background:#111;
   color:white;
+
+  display:none;   /* hidden by default */
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  z-index:9999;
   text-align:center;
 }
-
 #heartBtn{
   font-size:90px;
   margin:0;
@@ -247,21 +259,20 @@ button:hover{
 
 /* ===== HEARTBEAT FULL SCREEN FIX ===== */
 
-#page5b{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100vh;
-  background:#111;
-  display:none; /* important override */
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-}
 
 /* when page is active */
 #page5b.active{
   display:flex;
+}
+#next5bBtn{
+  margin-top:30px;
+  padding:12px 22px;
+  border:none;
+  border-radius:20px;
+  background:#ff5e94;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  opacity:0;
+  transition:opacity 0.5s ease;
 }

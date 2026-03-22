@@ -479,13 +479,15 @@ function initEasterEgg() {
     }
   };
 }
+const nextBtn = document.getElementById("next5bBtn");
+
 
 function initHeartbeatScene(){
 
   const btn = document.getElementById("heartBtn");
   const img = document.getElementById("lovePhoto");
   const msg = document.getElementById("finalMsg");
-
+  const nextBtn = document.getElementById("next5bBtn"); // ✅ ONLY HERE
   let interval;
   let holding = false;
   let speed = 800;
@@ -554,3 +556,10 @@ function initHeartbeatScene(){
     navigator.vibrate(0);
   }
 }
+
+// AFTER 4.5 sec → show NEXT button
+setTimeout(()=>{
+  if(nextBtn){
+    nextBtn.style.opacity = 1;
+  }
+}, 4500);
