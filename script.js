@@ -1,3 +1,4 @@
+
 // -------------------- Audio Fade Out --------------------
 function fadeOutAudio(audio, duration = 1000) {
   if(!audio) return;
@@ -28,6 +29,15 @@ function nextPage(n) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page'+n).classList.add('active');
 
+  if(n === '7b'){
+  const texts = document.querySelectorAll('#page7b .convince-text');
+  texts.forEach((el,i)=>{
+    setTimeout(()=>{
+      el.style.opacity = 1;
+    }, i*800);
+  });
+}
+
   // ---------------- Audio Control ----------------
   const letterMusic = document.getElementById('letterMusic');
   if(letterMusic && (n > 9 || n < 6)){  // leaving letter → memories pages
@@ -42,7 +52,9 @@ function nextPage(n) {
   if(n===7) initFinalQuestion();
   if(n===8) initMemories1();
   if(n===9) initMemories2();
-  if(n===10) initEasterEgg();
+ if(n == 10){
+  initEasterEgg();
+}
 }
 
 // -------------------- Delayed Text/Button --------------------
@@ -175,7 +187,7 @@ function initQuizHint(){
     quizTapCount++;
     if(quizTapCount===3){
       const hint = document.createElement('p');
-      hint.innerText = "🔎 Evidence: Spotify Blend";
+      hint.innerText = "🔎 Hint : Evidence";
       hint.style.color="#ff5e94";
       hint.style.fontWeight="600";
       hint.style.marginTop="10px";
@@ -266,9 +278,37 @@ function initFinalQuestion(){
   };
 
   page7.querySelector('#icant').onclick = ()=>{
-    finalMsg.innerText = "Its okay, I will wait for you however long it takes ❤️🥀";
-    setTimeout(()=> nextPage(8), 1500);
-  };
+  nextPage('7b');
+};
+}
+
+function acceptLove(){
+  triggerCelebration();
+  setTimeout(()=>{
+    nextPage(8);
+  },2000);
+}
+
+function stillNo(){
+  const page = document.getElementById('page7b');
+
+  // duplicate message na bane
+  if(document.getElementById('finalStillMsg')) return;
+
+  const msg = document.createElement('p');
+  msg.id = "finalStillMsg";
+  msg.innerText = "I’ll still stay… no pressure, no forcing. Bas tu khush reh ❤️";
+  msg.style.marginTop = "15px";
+  msg.style.color = "#ff5e94";
+  msg.style.fontWeight = "600";
+
+  page.appendChild(msg);
+
+  // smooth fast transition
+  setTimeout(()=>{
+    page.style.opacity = 0;
+    setTimeout(()=> nextPage(8), 300);
+  }, 1000);
 }
 
 // -------------------- PAGE 8 MEMORIES --------------------
@@ -326,9 +366,10 @@ function initEasterEgg() {
   let tapCount = 0;
   let activated = false;
 
-  page10.addEventListener("click", () => {
-    if (activated) return;
+  page10.onclick = () => {
 
+    if (activated) return;
+ 
     tapCount++;
 
     if (tapCount === 5) {
@@ -435,5 +476,5 @@ function initEasterEgg() {
       `;
       document.head.appendChild(style);
     }
-  });
+  };
 }
