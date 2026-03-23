@@ -176,8 +176,93 @@ Baaki sab hum saath milke figure out kar lenge ❤️</b></p>
       <img src="assets1/b3.jpg" class="memory-photo">
     </div>
     <p id="winnerText" style="opacity:0;">See… I guess yeh pyaara sa baccha won 😌</p>
-    <button id="next7Btn" style="opacity:0; display:block;" onclick="nextPage(10)">One last thing →</button>
+    <button id="next7Btn" onclick="nextPage('9b')">One last thing →</button>
   </section>
+
+<!-- PAGE 9B: Chat Gate + Chats -->
+<section class="page" id="page9b">
+
+  <!-- 🔐 GATE -->
+ <!-- 🔐 GATE -->
+<div id="chatGate">
+  <h2>Prove that, you are mine Bhawna ji</h2>
+  <p><b>With what do I usually address you?</b></p>
+
+  <input type="text" id="gateInput" placeholder="Your answer..." style="padding:10px 12px; border-radius:12px; border:1px solid #ccc; margin-top:12px;" />
+  <button id="gateBtn">Unlock →</button>
+
+  <p id="gateMsg" style="color:#ff5e94; font-weight:600; margin-top:12px;"></p>
+</div>
+
+  <!-- 💬 CHAT CONTENT -->
+  <div id="chatContent" style="display:none;">
+
+    <h3>Our little conversations 💬</h3>
+
+    <div class="chat-block">
+      <img src="assets1/chat1.jpg" class="chat-img">
+      <p class="chat-caption">Yaha se hi sab shuru hua tha…</p>
+    </div>
+
+    <div class="chat-block">
+      <img src="assets1/chat2.jpg" class="chat-img">
+      <p class="chat-caption">Tu haste haste pagal ho gayi thi yaha 😂</p>
+    </div>
+
+    <div class="chat-block">
+      <img src="assets1/chat3.jpg" class="chat-img">
+      <p class="chat-caption">This one… I’ll never forget 🫂</p>
+    </div>
+
+    <button onclick="nextPage(10)" id="nextChatBtn" style="opacity:0;">
+      Last surprise →
+    </button>
+
+  </div>
+
+</section>
+
+<!-- 📝 PAGE 10A: Chats -->
+<section class="page" id="page10A">
+  <h2>Our Chats 💬</h2>
+
+  <div class="chatGrid">
+  
+    <!-- Chat 1 -->
+    <div class="chatItem">
+      <img src="assets1/chat1.png" alt="ss 1" class="chatImg">
+      <p class="caption">buggie1</p>
+    </div>
+
+    <!-- Chat 2 -->
+    <div class="chatItem">
+      <img src="assets1/chat2.png" alt="ss2" class="chatImg">
+      <p class="caption">buggie2</p>
+    </div>
+
+    <!-- Chat 3 -->
+    <div class="chatItem">
+      <img src="assets1/chat3.png" alt="ss3" class="chatImg">
+      <p class="caption">buggie3</p>
+    </div>
+
+    <!-- Chat 4 -->
+    <div class="chatItem">
+      <img src="assets1/chat4.png" alt="ss 4" class="chatImg">
+      <p class="caption">buggie4</p>
+    </div>
+  </div>
+    <button id="next10ABtn" onclick="nextPage(10)" style="opacity:0; margin-top:20px;">
+  Last surprise →
+</button>
+  
+</section>
+
+<!-- Fullscreen Modal for chats -->
+<div id="chatModal">
+  <span id="closeModal">✖</span>
+  <img id="modalImg" src="" alt="Full Chat">
+</div>
 
   <!-- PAGE 10: QR + Easter Egg -->
   <section class="page" id="page10">
@@ -190,4 +275,4 @@ Baaki sab hum saath milke figure out kar lenge ❤️</b></p>
 
 <script src="script.js"></script>
 </body>
-</html>
+        </html>
