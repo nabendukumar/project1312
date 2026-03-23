@@ -39,10 +39,13 @@ function nextPage(n) {
 }
 
   // ---------------- Audio Control ----------------
+  
   const letterMusic = document.getElementById('letterMusic');
-  if(letterMusic && (n > 9 || n < 6)){  // leaving letter → memories pages
-    fadeOutAudio(letterMusic, 1500); // fade out 1.5s
-  }
+
+// 🎧 Fade music ONLY when entering gate page (9b)
+if(letterMusic && n === "9b"){
+  fadeOutAudio(letterMusic, 2000); // slow smooth fade ❤️
+}
 
   if(n===1||n===2) initDelayed(n);
   if(n===3) startPercent();
@@ -53,6 +56,8 @@ function nextPage(n) {
   if(n===7) initFinalQuestion();
   if(n===8) initMemories1();
   if(n===9) initMemories2();
+  if(n === "9b") initChatPage();
+  if(n === "10A") initPage10A();
  if(n == 10){
   initEasterEgg();
 }
@@ -69,28 +74,39 @@ function initDelayed(page){
 }
 
 // -------------------- PAGE 3 Compatibility --------------------
+
 function startPercent(){
-  const numbers = [12,37,64,82,99];
-  let i = 0;
   const percentEl = document.getElementById('percent');
   const calcText = document.getElementById('calcText');
   const musicResult = document.getElementById('musicResult');
 
+  let current = 0;
+  const target = 99;
+  const duration = 2500; // total animation time (ms)
+  const stepTime = 20;
+  const increment = target / (duration / stepTime);
+
   let interval = setInterval(()=>{
-    percentEl.innerText = numbers[i] + '%';
-    i++;
-    if(i === numbers.length){
+    current += increment;
+
+    if(current >= target){
+      current = target;
       clearInterval(interval);
+
       setTimeout(()=>{
         calcText.style.display='none';
         musicResult.style.display='block';
+
         let delayedElems = musicResult.querySelectorAll('.delayed');
         delayedElems.forEach((el,j)=>{
           setTimeout(()=>{ el.style.opacity=1; }, j*500);
         });
       }, 300);
     }
-  }, 500);
+
+    percentEl.innerText = Math.floor(current) + '%';
+
+  }, stepTime);
 }
 
 // -------------------- PAGE 4 Voice --------------------
@@ -509,18 +525,22 @@ function initHeartbeatScene(){
   const btn = document.getElementById("heartBtn");
   const img = document.getElementById("lovePhoto");
   const msg = document.getElementById("finalMsg");
-  const nextBtn = document.getElementById("next5bBtn"); // ✅ ONLY HERE
+  const nextBtn = document.getElementById("next5bBtn");
+
   let interval;
   let holding = false;
   let speed = 800;
 
+  // ✅ RESET EVERYTHING FIRST
+  img.style.opacity = 0;
+  msg.style.opacity = 0;
+  nextBtn.style.opacity = 0;
+
   function beat(){
-    // vibration (Android only)
     if(navigator.vibrate){
       navigator.vibrate([60, speed - 60]);
     }
 
-    // image pulse sync
     img.style.transform = "scale(1.06)";
     setTimeout(()=>{
       img.style.transform = "scale(1)";
@@ -532,44 +552,41 @@ function initHeartbeatScene(){
     interval = setInterval(beat, speed);
   }
 
-  // HOLD START
   btn.addEventListener("touchstart", start);
   btn.addEventListener("mousedown", start);
 
-  // RELEASE STOP
   btn.addEventListener("touchend", stop);
   btn.addEventListener("mouseup", stop);
   btn.addEventListener("mouseleave", stop);
 
   function start(){
     holding = true;
-
     startHeartbeat();
 
-    // AFTER 3 sec → image + faster heartbeat
     setTimeout(()=>{
       if(!holding) return;
 
       img.style.opacity = 1;
-      img.style.transform = "scale(1)";
-
       speed = 450;
       startHeartbeat();
-
     },3000);
 
-    // AFTER 4 sec → message
     setTimeout(()=>{
       if(!holding) return;
 
       msg.style.opacity = 1;
-      msg.innerText =
-        "Love… that's what my heart sounds like when it's you ❤️";
+      msg.innerText = "Love… that's what my heart sounds like when it's you ❤️";
 
       speed = 300;
       startHeartbeat();
-
     },4000);
+
+    // ✅ SHOW BUTTON AFTER EVERYTHING
+    setTimeout(()=>{
+      if(holding){
+        nextBtn.style.opacity = 1;
+      }
+    },4500);
   }
 
   function stop(){
@@ -585,3 +602,107 @@ setTimeout(()=>{
     nextBtn.style.opacity = 1;
   }
 }, 4500);
+
+// -------------------- CHAT GATE --------------------
+// -------------------- GATE PAGE --------------------
+let gateAttempts = 0;
+const correctAnswer = "laxmi mata"; 
+
+document.getElementById("gateBtn").onclick = () => {
+  const input = document.getElementById("gateInput").value.toLowerCase().trim();
+  const msg = document.getElementById("gateMsg");
+
+  gateAttempts++;
+
+ if(input === correctAnswer || input.includes("laxmi") || input.includes("mata")) {
+  msg.innerText = "Haan haan… ab yaad aaya 😏❤️";
+
+  triggerCelebration();
+
+  setTimeout(() => {
+    const line2 = document.createElement("div");
+    line2.innerText = "Chalo… kuch yaadein taza krte hai 👀";
+    line2.style.marginTop = "6px";
+    msg.appendChild(line2);
+
+    // 👉 2 sec baad auto next page 10A
+    setTimeout(() => {
+      nextPage("10A");
+    }, 2000);
+
+  }, 1500);
+
+
+
+
+  } else if(gateAttempts < 3) {
+    const hints = [
+      "Babygirl galat jawab",
+      "Apne andar ke bhagwan se pucho ji.. (ishse zayda nhi bataunga)"
+    ];
+    msg.innerText = hints[gateAttempts-1];
+
+  } else {
+    // 3 wrong attempts → skip directly to QR page
+    msg.innerText = "dust aurat chance khatam, jaao yaad kro phele";
+    setTimeout(() => nextPage(10), 1500);
+  }
+};
+
+// -------------------- CHAT ANIMATION --------------------
+function initChatPage(){
+  const blocks = document.querySelectorAll('#page9b .chat-block');
+  const btn = document.getElementById('nextChatBtn');
+
+  blocks.forEach((block, i)=>{
+    setTimeout(()=>{
+      block.style.opacity = 1;
+      block.style.transform = "translateY(0)";
+    }, i * 800);
+  });
+
+  setTimeout(()=>{
+    btn.style.opacity = 1;
+  }, blocks.length * 800 + 500);
+}
+
+// -------------------- CHAT MODAL --------------------
+const chatImgs = document.querySelectorAll(".chatImg");
+const modal = document.getElementById("chatModal");
+const modalImg = document.getElementById("modalImg");
+const closeModal = document.getElementById("closeModal");
+
+// Tap on chat image → show full-screen
+chatImgs.forEach(img => {
+  img.addEventListener("click", () => {
+    modal.style.display = "flex";
+    modalImg.src = img.src;
+  });
+});
+
+// Close button
+closeModal.addEventListener("click", () => {
+  modal.style.display = "none";
+  modalImg.src = "";
+});
+
+// Tap outside image → close
+modal.addEventListener("click", e => {
+  if(e.target === modal) {
+    modal.style.display = "none";
+    modalImg.src = "";
+  }
+});
+
+function initPage10A(){
+  const btn = document.getElementById("next10ABtn");
+
+  if(btn){
+    btn.style.opacity = 0;
+    btn.style.display = "block";
+
+    setTimeout(()=>{
+      btn.style.opacity = 1;
+    }, 1000); // 1 sec delay ke baad show
+  }
+      }
