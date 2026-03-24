@@ -1,3 +1,18 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD4nfsg2mzLGmv1YFBhNaGnlAE-4cs2kuw",
+  authDomain: "pro1312.firebaseapp.com",
+  projectId: "pro1312",
+  storageBucket: "pro1312.firebasestorage.app",
+  messagingSenderId: "161296143188",
+  appId: "1:161296143188:web:bd9640cd656874c12a6ec1"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 
 // -------------------- Audio Fade Out --------------------
 function fadeOutAudio(audio, duration = 1000) {
@@ -58,6 +73,7 @@ if(letterMusic && n === "9b"){
   if(n===9) initMemories2();
   if(n === "9b") initChatPage();
   if(n === "10A") initPage10A();
+  if(n === "10B") initPage10B();
  if(n == 10){
   initEasterEgg();
 }
@@ -289,7 +305,7 @@ function initFinalQuestion(){
   const finalMsg = document.getElementById('finalMsg');
 
   page7.querySelector('#obvious').onclick = ()=>{
-    finalMsg.innerText = "I Love you little athlete🥹❤️";
+    finalMsg.innerText = "I Love you lill athlete🥹❤️";
     triggerCelebration();
     setTimeout(()=> nextPage(8), 2500);
   };
@@ -667,17 +683,16 @@ function initChatPage(){
 }
 
 // -------------------- CHAT MODAL --------------------
-const chatImgs = document.querySelectorAll(".chatImg");
 const modal = document.getElementById("chatModal");
 const modalImg = document.getElementById("modalImg");
 const closeModal = document.getElementById("closeModal");
 
-// Tap on chat image → show full-screen
-chatImgs.forEach(img => {
-  img.addEventListener("click", () => {
+// orks for ALL current + future images
+document.addEventListener("click", function(e){
+  if(e.target.classList.contains("chatImg")){
     modal.style.display = "flex";
-    modalImg.src = img.src;
-  });
+    modalImg.src = e.target.src;
+  }
 });
 
 // Close button
@@ -705,4 +720,39 @@ function initPage10A(){
       btn.style.opacity = 1;
     }, 1000); // 1 sec delay ke baad show
   }
-      }
+}
+
+function initPage10B(){
+  const lines = document.querySelectorAll('#page10B .line');
+
+  lines.forEach((line, i)=>{
+    line.style.opacity = 0;
+
+    setTimeout(()=>{
+      line.style.transition = "opacity 0.8s ease";
+      line.style.opacity = 1;
+    }, i * 700);
+  });
+}
+
+async function submitRant(){
+  const text = document.getElementById("rantBox").value;
+  const response = document.getElementById("rantResponse");
+
+  if(text.trim() === ""){
+    response.innerText = "Bol de na… ruk kyu rahi hai 🥺";
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "messages"), {
+      message: text,
+      createdAt: new Date()
+    });
+
+    response.innerText = "No defending. No arguing. Just listening ❤️";
+  } catch (error) {
+    console.error(error);
+    response.innerText = "Error aaya… but I still want to hear you";
+  }
+    }
