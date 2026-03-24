@@ -1,18 +1,20 @@
+// Firebase imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
+// Firebase config
 const firebaseConfig = {
-  apiKey: "AIzaSyD4nfsg2mzLGmv1YFBhNaGnlAE-4cs2kuw",
-  authDomain: "pro1312.firebaseapp.com",
-  projectId: "pro1312",
-  storageBucket: "pro1312.firebasestorage.app",
-  messagingSenderId: "161296143188",
-  appId: "1:161296143188:web:bd9640cd656874c12a6ec1"
+  apiKey: "AIzaSyDPPRdDkaCuZ7F5KZUap6nEUSC5d5C6lpk",
+  authDomain: "tulip-ebeaa.firebaseapp.com",
+  projectId: "tulip-ebeaa",
+  storageBucket: "tulip-ebeaa.firebasestorage.app",
+  messagingSenderId: "23034352736",
+  appId: "1:23034352736:web:27a9dcc5bf19e17272df05"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 
 // -------------------- Audio Fade Out --------------------
 function fadeOutAudio(audio, duration = 1000) {
