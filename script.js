@@ -1,21 +1,3 @@
-// Firebase imports
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
-
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyDPPRdDkaCuZ7F5KZUap6nEUSC5d5C6lpk",
-  authDomain: "tulip-ebeaa.firebaseapp.com",
-  projectId: "tulip-ebeaa",
-  storageBucket: "tulip-ebeaa.firebasestorage.app",
-  messagingSenderId: "23034352736",
-  appId: "1:23034352736:web:27a9dcc5bf19e17272df05"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
 // -------------------- Audio Fade Out --------------------
 function fadeOutAudio(audio, duration = 1000) {
   if(!audio) return;
@@ -83,6 +65,18 @@ if(letterMusic && n === "9b"){
 
 // -------------------- Delayed Text/Button --------------------
 function initDelayed(page){
+  function initPage10B(){
+  const lines = document.querySelectorAll('#page10B .line');
+
+  lines.forEach((line, i)=>{
+    line.style.opacity = 0;
+
+    setTimeout(()=>{
+      line.style.transition = "opacity 0.8s ease";
+      line.style.opacity = 1;
+    }, i * 700);
+  });
+}
   let textElems = document.querySelectorAll('#page'+page+' .delayed-text, #page'+page+' .delayed-texts p');
   textElems.forEach((el,i)=>{ 
     setTimeout(()=>{ el.style.opacity=1; }, i*600); 
@@ -307,7 +301,7 @@ function initFinalQuestion(){
   const finalMsg = document.getElementById('finalMsg');
 
   page7.querySelector('#obvious').onclick = ()=>{
-    finalMsg.innerText = "I Love you lill athlete🥹❤️";
+    finalMsg.innerText = "I Love you lil athlete🥹❤️";
     triggerCelebration();
     setTimeout(()=> nextPage(8), 2500);
   };
@@ -685,16 +679,17 @@ function initChatPage(){
 }
 
 // -------------------- CHAT MODAL --------------------
+const chatImgs = document.querySelectorAll(".chatImg");
 const modal = document.getElementById("chatModal");
 const modalImg = document.getElementById("modalImg");
 const closeModal = document.getElementById("closeModal");
 
-// orks for ALL current + future images
-document.addEventListener("click", function(e){
-  if(e.target.classList.contains("chatImg")){
+// Tap on chat image → show full-screen
+chatImgs.forEach(img => {
+  img.addEventListener("click", () => {
     modal.style.display = "flex";
-    modalImg.src = e.target.src;
-  }
+    modalImg.src = img.src;
+  });
 });
 
 // Close button
@@ -723,7 +718,6 @@ function initPage10A(){
     }, 1000); // 1 sec delay ke baad show
   }
 }
-
 function initPage10B(){
   const lines = document.querySelectorAll('#page10B .line');
 
@@ -736,25 +730,3 @@ function initPage10B(){
     }, i * 700);
   });
 }
-
-async function submitRant(){
-  const text = document.getElementById("rantBox").value;
-  const response = document.getElementById("rantResponse");
-
-  if(text.trim() === ""){
-    response.innerText = "Bol de na… ruk kyu rahi hai 🥺";
-    return;
-  }
-
-  try {
-    await addDoc(collection(db, "messages"), {
-      message: text,
-      createdAt: new Date()
-    });
-
-    response.innerText = "No defending. No arguing. Just listening ❤️";
-  } catch (error) {
-    console.error(error);
-    response.innerText = "Error aaya… but I still want to hear you";
-  }
-    }
