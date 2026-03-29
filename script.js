@@ -1,3 +1,4 @@
+
 // -------------------- Audio Fade Out --------------------
 function fadeOutAudio(audio, duration = 1000) {
   if(!audio) return;
@@ -58,9 +59,10 @@ if(letterMusic && n === "9b"){
   if(n === "9b") initChatPage();
   if(n === "10A") initPage10A();
   if(n === "10B") initPage10B();
- if(n == 10){
+ if(n === 10){
   initEasterEgg();
 }
+  if(n === 11) initFinalFormPage();
 }
 
 // -------------------- Delayed Text/Button --------------------
@@ -538,62 +540,100 @@ function initHeartbeatScene(){
   const img = document.getElementById("lovePhoto");
   const msg = document.getElementById("finalMsg");
   const nextBtn = document.getElementById("next5bBtn");
+  const audio = document.getElementById("heartbeatAudio");
 
   let interval;
   let holding = false;
-  let speed = 800;
 
-  // ✅ RESET EVERYTHING FIRST
+  // RESET
   img.style.opacity = 0;
+  img.style.transform = "scale(1)";
   msg.style.opacity = 0;
   nextBtn.style.opacity = 0;
 
-  function beat(){
-    if(navigator.vibrate){
-      navigator.vibrate([60, speed - 60]);
-    }
+  audio.pause();
+  audio.currentTime = 0;
+  audio.volume = 0;
 
-    img.style.transform = "scale(1.06)";
-    setTimeout(()=>{
-      img.style.transform = "scale(1)";
-    }, 120);
-  }
+  // remove old listeners (important fix)
+  btn.replaceWith(btn.cloneNode(true));
+  const newBtn = document.getElementById("heartBtn");
 
-  function startHeartbeat(){
+  // ❤️ HEARTBEAT SYNC FUNCTION
+  function startHeartbeat(rate = 1){
+
     clearInterval(interval);
-    interval = setInterval(beat, speed);
+
+    const cycle = 880 / rate;
+
+    interval = setInterval(()=>{
+
+      // ❤️ LUB (strong)
+      img.style.transform = "scale(1.06)";
+      setTimeout(()=>{
+        img.style.transform = "scale(1)";
+      }, 140);
+
+      // ❤️ DUB (light)
+      setTimeout(()=>{
+        img.style.transform = "scale(1.04)";
+        setTimeout(()=>{
+          img.style.transform = "scale(1)";
+        }, 140);
+      }, 220);
+
+    }, cycle);
   }
 
-  btn.addEventListener("touchstart", start);
-  btn.addEventListener("mousedown", start);
+  // 🎧 AUDIO FADE IN
+  function fadeInAudio(){
+    audio.play().catch(()=>{});
+    let vol = 0;
 
-  btn.addEventListener("touchend", stop);
-  btn.addEventListener("mouseup", stop);
-  btn.addEventListener("mouseleave", stop);
+    const fade = setInterval(()=>{
+      vol += 0.05;
 
+      if(vol >= 0.6){
+        audio.volume = 0.6;
+        clearInterval(fade);
+      } else {
+        audio.volume = vol;
+      }
+
+    },100);
+  }
+
+  // ▶ START
   function start(){
     holding = true;
-    startHeartbeat();
 
+    fadeInAudio();
+
+    audio.playbackRate = 1;
+    startHeartbeat(1);
+
+    // 3 sec → image reveal + faster beat
     setTimeout(()=>{
       if(!holding) return;
 
       img.style.opacity = 1;
-      speed = 450;
-      startHeartbeat();
+
+      audio.playbackRate = 1.2;
+      startHeartbeat(1.2);
     },3000);
 
+    // 4 sec → message + more speed
     setTimeout(()=>{
       if(!holding) return;
 
       msg.style.opacity = 1;
       msg.innerText = "Love… that's what my heart sounds like when it's you ❤️";
 
-      speed = 300;
-      startHeartbeat();
+      audio.playbackRate = 1.4;
+      startHeartbeat(1.4);
     },4000);
 
-    // ✅ SHOW BUTTON AFTER EVERYTHING
+    // 4.5 sec → next button
     setTimeout(()=>{
       if(holding){
         nextBtn.style.opacity = 1;
@@ -601,19 +641,39 @@ function initHeartbeatScene(){
     },4500);
   }
 
+  // ⏹ STOP
   function stop(){
     holding = false;
-    clearInterval(interval);
-    navigator.vibrate(0);
-  }
-}
 
-// AFTER 4.5 sec → show NEXT button
-setTimeout(()=>{
-  if(nextBtn){
-    nextBtn.style.opacity = 1;
+    clearInterval(interval);
+
+    if(navigator.vibrate) navigator.vibrate(0);
+
+    // 🎧 AUDIO FADE OUT
+    let vol = audio.volume;
+
+    const fade = setInterval(()=>{
+      vol -= 0.05;
+
+      if(vol <= 0){
+        audio.volume = 0;
+        audio.pause();
+        clearInterval(fade);
+      } else {
+        audio.volume = vol;
+      }
+
+    },100);
   }
-}, 4500);
+
+  // EVENTS
+  newBtn.addEventListener("mousedown", start);
+  newBtn.addEventListener("touchstart", start);
+
+  newBtn.addEventListener("mouseup", stop);
+  newBtn.addEventListener("mouseleave", stop);
+  newBtn.addEventListener("touchend", stop);
+}
 
 // -------------------- CHAT GATE --------------------
 // -------------------- GATE PAGE --------------------
@@ -730,3 +790,16 @@ function initPage10B(){
     }, i * 700);
   });
 }
+
+function initFinalFormPage(){
+  const texts = document.querySelectorAll('#page11 .convince-text');
+
+  texts.forEach((el, i)=>{
+    el.style.opacity = 0;
+
+    setTimeout(()=>{
+      el.style.transition = "opacity 1s ease";
+      el.style.opacity = 1;
+    }, i * 800);
+  });
+    }
